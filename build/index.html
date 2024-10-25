@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultrasound Interface</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Link the built CSS file here -->
+    <link rel="stylesheet" href="./static/css/main.css">
+</head>
+<body>
+    <div id="root"></div>
+    <!-- Main entry point for the React application -->
+
+    <!-- Script to set up NUI message handling -->
+    <script>
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.showUltrasound) {
+                document.getElementById('root').style.display = 'block';
+            }
+        });
+
+        // Add listener for closing with escape key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                document.getElementById('root').style.display = 'none';
+                fetch(`https://${GetParentResourceName()}/closeNUI`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({})
+                });
+            }
+        });
+    </script>
+
+    <!-- Link to bundled JS files after build -->
+    <script src="./static/js/main.js"></script>
+</body>
+</html>
